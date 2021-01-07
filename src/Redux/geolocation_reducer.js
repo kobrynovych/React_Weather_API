@@ -52,7 +52,7 @@ export const setGeolocationThunk = () => async (dispatch) => {
 
     try {
         const response = await geolocationFetch();
-
+debugger
         if (response.data.status === "success") {
 
            dispatch(setCity_ActionCreater(response.data.city));
@@ -65,8 +65,8 @@ export const setGeolocationThunk = () => async (dispatch) => {
            dispatch(setErrorMess_ActionCreater(response.data.message));
         }
 
-    } catch(err) {
-        dispatch(setErrorMess_ActionCreater(err));
+    } catch(error) {
+        dispatch(setErrorMess_ActionCreater(error.response.data.message));
     }
 
     dispatch(setIsLoading_ActionCreater());

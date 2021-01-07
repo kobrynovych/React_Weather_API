@@ -1,17 +1,19 @@
 import React from 'react'
 
-export const GeolocationWeather = React.memo(({ geolocation, weather }) => {
+export const GeolocationWeather = React.memo(({ geolocation, weather, dates }) => {
     return (
         <>
-            <h1>{geolocation.city} - {geolocation.country}</h1>
+            <h1>{geolocation.city}, {geolocation.country}</h1>
+            <h4>{dates}</h4>
 
             {JSON.stringify(weather) !== '{}' && (<>
-                <h1>{weather.main.temp}°C - Temperature.</h1>
-                <h1>{weather.weather[0].description}</h1>
-                <h1>{weather.main.pressure}hPa - Atmospheric pressure.</h1>
-                <h1>{weather.main.humidity}% - Humidity.</h1>
-                <h1>{weather.wind.speed}m/s - Wind speed.</h1>
-                <h1>{weather.clouds.all}% - Cloudiness.</h1>
+                <img src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@4x.png`}/>
+                <div>{weather.main.temp}°C</div>
+                <div>{weather.weather[0].description}</div>
+                <div>Atmospheric pressure: {weather.main.pressure}hPa</div>
+                <div>Humidity: {weather.main.humidity}%</div>
+                <div>Wind speed: {weather.wind.speed}m/s</div>
+                <div>Cloudiness: {weather.clouds.all}%</div>
             </>)}
         </>
     )

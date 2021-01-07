@@ -1,78 +1,100 @@
-import React, {useEffect} from 'react'
+import React, {useState, useEffect, useMemo} from 'react'
 import { useDispatch, useSelector} from 'react-redux';
 import { setGeolocationThunk } from '../../Redux/geolocation_reducer';
 import { setWeatherThunk } from '../../Redux/weather_reducer';
 import Spinner from '../Spinner/Spinner';
 import { GeolocationWeather } from '../GeolocationWeather/GeolocationWeather';
+import { setWeatherSearchThunk } from './../../Redux/weather_reducer';
 
 export default function HomeContainer() {
+
+    const [search, setSearch] = useState('');
+
     const geolocation = useSelector(state => state.geolocation);
     const weather = useSelector(state => state.weather.weather);
+    const weatherSearch = useSelector(state => state.weather.weatherSearch);
     const isLoading = useSelector(state => state.errorMess.isLoading)
     const error_mess = useSelector(state => state.errorMess.error);
-// debugger
+    const errorSearch = useSelector(state => state.errorMess.errorSearch);
+
+    
     const dispatch = useDispatch();
          
     useEffect(() => {
+        debugger
         if (geolocation.city.length === 0) {
             dispatch(setGeolocationThunk());
         }
     }, [])
-
+    
     useEffect(() => {
-        dispatch(setWeatherThunk (geolocation.city, geolocation.lat, geolocation.lon));
+        dispatch(setWeatherThunk(geolocation.city, geolocation.lat, geolocation.lon));
     }, [geolocation.city])
 
 
-
-    const handleClick = () => {
-        dispatch(setWeatherThunk (geolocation.city, geolocation.lat, geolocation.lon));
+    const handleChange = (e) => {
+        setSearch(e.target.value);
     }
+
+    const handleClick = (e) => {
+        debugger
+        e.preventDefault();
+        dispatch(setWeatherSearchThunk(search, geolocation.lat, geolocation.lon));
+    }
+
+    // const handleClick = React.useMemo(() => {
+    //     dispatch(setWeatherThunk(geolocation.city, geolocation.lat, geolocation.lon))
+    //   }, [search]
+    // );
+
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'Nocvember', 'December'];
+    const date = new Date();
+    const dates = `${days[date.getDay()]} ${date.getDate()} ${months[date.getMonth()]}`;
 
     return (
         <div>
-            home
-            <div>Ivano-Frankivsk</div>
-            <div>City name, state code and country code divided by comma, use ISO 3166 country codes.
-                You can specify the parameter not only in English. In this case, the API response should be returned in 
-                the same language as the language of requested location name if the location is in our predefined list
-                of more than 200,000 locations.</div>
-           
-           
+          
             {isLoading ? <Spinner /> : (<React.Fragment>
 
                 {error_mess && (<h3>{error_mess}</h3>)}
                 
                 {geolocation.city.length !== 0 && <GeolocationWeather geolocation={geolocation}
                     weather={weather}
+                    dates={dates}
                 />}
 
                 <br></br>
                 
+                <input onChange={handleChange} value={search} placeholder='Львів, Lviv, Kyiv, Ivano Frankivsk...' title='You can specify the City name not only in English. In list of more than 200,000 locations.'/>
                 <button onClick={handleClick}>Send</button>
 
+                {errorSearch && (<h3>{errorSearch}</h3>)}
 
-                {JSON.stringify(weather) !== '{}' && (<>
+                {JSON.stringify(weatherSearch) !== '{}' && (<>
 
-                    <h1>{weather.name} - Назва міста</h1>
-                    
-                    <h1>{weather.weather[0].main} - Група параметрів погоди (дощ, сніг, екстремальний стан тощо)</h1>
-                    <h1>{weather.weather[0].description} - Погодні умови в межах групи. Ви можете отримати вихід на своїй мові.</h1>
-                    <h1>{weather.weather[0].icon} - Погода значок ідентифікатор</h1>
 
-                    <h1>{weather.main.temp} - Температура.</h1>
-                    <h1>{weather.main.feels_like} - Температура. Цей температурний параметр враховує сприйняття людиною погоди.</h1>
-                    <h1>{weather.main.pressure} - Атмосферний тиск (на рівні моря, якщо немає даних про рівень моря або рівень моря)</h1>
-                    <h1>{weather.main.humidity} - Вологість,%</h1>
-                    <h1>{weather.main.temp_min} - Мінімальна температура на даний момент. Це мінімальна спостережувана температура в даний час (в межах великих мегаполісів та міських районів).</h1>
-                    <h1>{weather.main.temp_max} - Максимальна температура на даний момент. Це максимальна температура, що спостерігається в даний час (у великих мегаполісах та міських районах)</h1>
-                    {/* <h1>{weather.main.sea_level} - Атмосферний тиск на рівні моря, гПа</h1> */}
-                    {/* <h1>{weather.main.grnd_level} - Атмосферний тиск на рівні землі, гПа</h1> */}
-                
-                    <h1>{weather.wind.speed} - Швидкість вітру. Одиниця за замовчуванням: метр / сек</h1>
-                    <h1>{weather.clouds.all} - Хмарність,%</h1>
+
+                    <h2>{weatherSearch.city.name}, {weatherSearch.city.country}</h2>
+                    {weatherSearch.list.map(el => (<>
+                        <div>{el.dt}</div>
+                        <div>{el.dt_txt}</div>
+                        <div>Імовірність опадів: {el.pop}</div>
+                        <div>Частина доби: {el.sys.pod}</div>
+                        <div>Швидкість вітру: {el.wind.speed}m/s</div>
+                        <div>{el.weather[0].description}</div>
+                        <img src={`http://openweathermap.org/img/wn/${el.weather[0].icon}@4x.png`}/>
+                        <div>{el.main.temp}°C</div>
+                        <div>Atmospheric pressure: {el.main.pressure}hPa</div>
+                        <div>Humidity: {el.main.humidity}%</div>
+                        <div>Cloudiness: {el.clouds.all}%</div>
+
+
+                    </>))}
+
                 </>)}
-                <br></br>
+       
+
             </React.Fragment>)}
 
             
