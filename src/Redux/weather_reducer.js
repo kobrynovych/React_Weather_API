@@ -1,30 +1,18 @@
 import React from 'react';
-import { geolocationFetch } from './../api/api';
+import { weatherFetch } from '../api/api';
+import { setIsLoading_ActionCreater, setErrorMess_ActionCreater } from './errorMess_reducer';
 
-const SET_IS_LOADING = 'SET_IS_LOADING';
-const SET_GEOLOCATION = 'SET_GEOLOCATION';
-const SET_GEOLOCATION_ERROR_MESS = 'SET_GEOLOCATION_ERROR_MESS';
-
+const SET_WEATHER = 'SET_WEATHER';
 
 const initialState = {
-    isLoading: false,
-    geolocation: [],
-    error: null,
+    weather: {},
 };
 
 const weather_reducer = (state = initialState, action) => {
     switch (action.type) {
-        case SET_IS_LOADING:
+        case SET_WEATHER:
             return {
-                ...state, isLoading: !state.isLoading
-            };
-        case SET_GEOLOCATION:
-            return {
-                ...state, geolocation: action.payload
-            };
-        case SET_GEOLOCATION_ERROR_MESS:
-            return {
-                ...state, error: action.payload
+                ...state, weather: action.payload
             };
         default:
             return state;
@@ -33,27 +21,30 @@ const weather_reducer = (state = initialState, action) => {
 
 export default weather_reducer;
 
-export const setIsLoading_ActionCreater = () => ({type: SET_IS_LOADING});
-export const setGeolocation_ActionCreater = (payload) => ({type: SET_GEOLOCATION, payload});
-export const setGeolocationErrorMess_ActionCreater = (payload) => ({type: SET_GEOLOCATION_ERROR_MESS, payload});
+export const setWeather_ActionCreater = (payload) => ({type: SET_WEATHER, payload});
 
 
-export const setGeolocationThunk = () => async (dispatch) => {
-    debugger
+export const setWeatherThunk = (city, lat, lon) => async (dispatch) => {
+
+    const city = 'Ivano Frankivsk';
+    const cityURL = city.replace(/\s/g, '-'); 
+
     dispatch(setIsLoading_ActionCreater());
 
+
     try {
-        const response = await geolocationFetch();
-
-        if (response.data.status === "success") {
-           dispatch(setGeolocation_ActionCreater(response.data));
-           dispatch(setGeolocationErrorMess_ActionCreater(null));
+        const response = await weatherFetch.geolocation(cityURL, lat, lon);
+        
+        if (response.data.cod === 200) {
+           console.log(response.data);
+           dispatch(setWeather_ActionCreater(response.data));
+           dispatch(setErrorMess_ActionCreater(null));
         } else {
-           dispatch(setGeolocationErrorMess_ActionCreater(response.data.message));
+           dispatch(setErrorMess_ActionCreater(response.data.message));
         }
-
-    } catch(err) {
-        dispatch(setGeolocationErrorMess_ActionCreater(err));
+        
+    } catch(error) {
+        dispatch(setErrorMess_ActionCreater(error.response.data.message));
     }
 
     dispatch(setIsLoading_ActionCreater());

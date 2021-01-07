@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Box, LinearProgress } from '@material-ui/core';
 import { Redirect, Route, Switch } from 'react-router-dom';
-const Home = React.lazy(() => import('./../Home/Home'));
+const HomeContainer = React.lazy(() => import('./../Home/HomeContainer'));
 const About = React.lazy(() => import('./../About/About'));
 
 export default function Main() {
@@ -11,7 +11,7 @@ export default function Main() {
             <React.Suspense fallback={<div><LinearProgress /></div>}>
               <Switch>
                 <Route exact path="/home">
-                  <Home />
+                  <HomeContainer />
                 </Route>
                 <Route exact path="/about">
                   <About />
