@@ -14,8 +14,8 @@ const NavBar = (props) => {
             <Slide appear={false} direction="down" in={!trigger}>
             <AppBar>
                 <Toolbar>
-                  <NavLink to="/home" activeClassName={classes.active} className={classes.navLink}>Home</NavLink>
-                  <NavLink to="/about" activeClassName={classes.active} className={classes.navLink}>About</NavLink>
+                  <NavLink to="/Home" activeClassName={classes.active} className={classes.navLink}>Home</NavLink>
+                  <NavLink to="/About" activeClassName={classes.active} className={classes.navLink}>About</NavLink>
                 </Toolbar>
             </AppBar>
             </Slide>

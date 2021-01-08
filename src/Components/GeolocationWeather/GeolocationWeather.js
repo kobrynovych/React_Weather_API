@@ -1,9 +1,9 @@
 import React from 'react'
 
-export const GeolocationWeather = React.memo(({ geolocation, weather, dates }) => {
+export const GeolocationWeather = React.memo(({ city, country, weather, dates }) => {
     return (
         <>
-            <h1>{geolocation.city}, {geolocation.country}</h1>
+            <h1>{city}, {country.toUpperCase()}</h1>
             <h4>{dates}</h4>
 
             {JSON.stringify(weather) !== '{}' && (<>

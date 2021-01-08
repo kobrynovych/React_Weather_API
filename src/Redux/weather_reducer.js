@@ -4,10 +4,14 @@ import { setIsLoading_ActionCreater, setErrorMess_ActionCreater, setErrorMessSea
 
 const SET_WEATHER = 'SET_WEATHER';
 const SET_WEATHER_SEARCH = 'SET_WEATHER_SEARCH';
+const SET_WEATHER_CITY = 'SET_WEATHER_CITY';
+const SET_WEATHER_COUNTRY = 'SET_WEATHER_COUNTRY';
 
 const initialState = {
     weather: {},
-    weatherSearch: {},
+    weatherSearch: [],
+    city: null,
+    country: null,
 };
 
 const weather_reducer = (state = initialState, action) => {
@@ -20,6 +24,14 @@ const weather_reducer = (state = initialState, action) => {
             return {
                 ...state, weatherSearch: action.payload
             };
+        case SET_WEATHER_CITY:
+            return {
+                ...state, city: action.payload
+            };
+        case SET_WEATHER_COUNTRY:
+            return {
+                ...state, country: action.payload
+            };
         default:
             return state;
     }
@@ -29,6 +41,8 @@ export default weather_reducer;
 
 export const setWeather_ActionCreater = (payload) => ({type: SET_WEATHER, payload});
 export const setWeatherSearch_ActionCreater = (payload) => ({type: SET_WEATHER_SEARCH, payload});
+export const setWeatherSearchCity_ActionCreater = (payload) => ({type: SET_WEATHER_CITY, payload});
+export const setWeatherSearchCountry_ActionCreater = (payload) => ({type: SET_WEATHER_COUNTRY, payload});
 
 
 export const setWeatherThunk = (city) => async (dispatch) => {
@@ -57,28 +71,76 @@ export const setWeatherThunk = (city) => async (dispatch) => {
     dispatch(setIsLoading_ActionCreater());
 }
 
-export const setWeatherSearchThunk = (city, lat, lon) => async (dispatch) => {
+
+// // search
+// export const setWeatherSearchThunk = (city) => async (dispatch) => {
+
+//     const cityURL = city.replace(/\s/g, '-'); 
+
+//     dispatch(setIsLoading_ActionCreater());
+
+//     try {
+//         const response = await weatherFetch.search(cityURL);
+//         debugger
+//         if (response.data.cod === '200') {
+//            dispatch(setWeatherSearch_ActionCreater(response.data));
+//            dispatch(setErrorMessSearch_ActionCreater(null));
+//         } else {
+//            dispatch(setWeatherSearch_ActionCreater({}));
+//            dispatch(setErrorMessSearch_ActionCreater(response.data.message));
+//         }
+        
+//     } catch(error) {
+//         dispatch(setWeatherSearch_ActionCreater({}));
+//         dispatch(setErrorMessSearch_ActionCreater(error.response.data.message));
+//     }
+
+//     dispatch(setIsLoading_ActionCreater());
+// }
+
+
+
+// search
+export const setWeatherSearchThunk = (city) => async (dispatch) => {
 
     const cityURL = city.replace(/\s/g, '-'); 
 
     dispatch(setIsLoading_ActionCreater());
 
     try {
-        const response = await weatherFetch.search(cityURL, lat, lon);
+        const response = await weatherFetch.search(cityURL);
         debugger
         if (response.data.cod === '200') {
-           dispatch(setWeatherSearch_ActionCreater(response.data));
+
+            const list = response.data.list;
+            const startNewDay = list.findIndex(el => el.dt_txt.split(' ')[1] === '00:00:00');
+            console.log('startNewDay: '+startNewDay);
+            const arr = [];
+            if (startNewDay > 0) {
+                arr.push(list.splice(0, startNewDay))
+            }
+            while(list.length > 0) {
+              arr.push(list.splice(0, 8))
+            }
+            console.log(arr);
+
+
+           dispatch(setWeatherSearch_ActionCreater(arr));
+           dispatch(setWeatherSearchCity_ActionCreater(response.data.city.name));
+           dispatch(setWeatherSearchCountry_ActionCreater(response.data.city.country));
            dispatch(setErrorMessSearch_ActionCreater(null));
+
         } else {
-           dispatch(setWeatherSearch_ActionCreater({}));
+
+           dispatch(setWeatherSearch_ActionCreater([]));
            dispatch(setErrorMessSearch_ActionCreater(response.data.message));
+
         }
         
     } catch(error) {
-        dispatch(setWeatherSearch_ActionCreater({}));
+        dispatch(setWeatherSearch_ActionCreater([]));
         dispatch(setErrorMessSearch_ActionCreater(error.response.data.message));
     }
 
     dispatch(setIsLoading_ActionCreater());
 }
-

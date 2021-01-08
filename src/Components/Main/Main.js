@@ -10,14 +10,14 @@ export default function Main() {
         <Box my={2}>
             <React.Suspense fallback={<div><LinearProgress /></div>}>
               <Switch>
-                <Route exact path="/home">
+                <Route path="/Home">
                   <HomeContainer />
                 </Route>
-                <Route exact path="/about">
+                <Route exact path="/About">
                   <About />
                 </Route>
                 <Route path="*">
-                  <Redirect to="/home" />
+                  <Redirect to="/Home" />
                 </Route>
               </Switch>
             </React.Suspense>

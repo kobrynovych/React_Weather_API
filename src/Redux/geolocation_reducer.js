@@ -1,17 +1,14 @@
 import React from 'react';
 import { geolocationFetch } from '../api/api';
 import { setIsLoading_ActionCreater, setErrorMess_ActionCreater } from './errorMess_reducer';
+import { setWeatherThunk } from './weather_reducer';
 
 const SET_CITY = 'SET_CITY';
 const SET_COUNTRY = 'SET_COUNTRY';
-const SET_LAT = 'SET_LAT';
-const SET_LON = 'SET_LON';
 
 const initialState = {
     city: "",
     country: "",
-    lat: null,
-    lon: null,
 };
 
 const geolocation_reducer = (state = initialState, action) => {
@@ -24,14 +21,6 @@ const geolocation_reducer = (state = initialState, action) => {
             return {
                 ...state, country: action.payload
             };
-        case SET_LAT:
-            return {
-                ...state, lat: action.payload
-            };
-        case SET_LON:
-            return {
-                ...state, lon: action.payload
-            };
         default:
             return state;
     }
@@ -42,8 +31,6 @@ export default geolocation_reducer;
 
 export const setCity_ActionCreater = (payload) => ({type: SET_CITY, payload});
 export const setCountry_ActionCreater = (payload) => ({type: SET_COUNTRY, payload});
-export const setLat_ActionCreater = (payload) => ({type: SET_LAT, payload});
-export const setLon_ActionCreater = (payload) => ({type: SET_LON, payload});
 
 
 export const setGeolocationThunk = () => async (dispatch) => {
@@ -51,16 +38,16 @@ export const setGeolocationThunk = () => async (dispatch) => {
     dispatch(setIsLoading_ActionCreater());
 
     try {
+
         const response = await geolocationFetch();
-debugger
+
         if (response.data.status === "success") {
 
+           dispatch(setWeatherThunk(response.data.city));
            dispatch(setCity_ActionCreater(response.data.city));
            dispatch(setCountry_ActionCreater(response.data.country));
-           dispatch(setLat_ActionCreater(response.data.lat));
-           dispatch(setLon_ActionCreater(response.data.lon));
-
            dispatch(setErrorMess_ActionCreater(null));
+
         } else {
            dispatch(setErrorMess_ActionCreater(response.data.message));
         }
