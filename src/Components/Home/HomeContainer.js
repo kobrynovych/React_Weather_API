@@ -1,17 +1,30 @@
 import React, {useState, useEffect, useMemo} from 'react'
 import { useDispatch, useSelector} from 'react-redux';
 import { setGeolocationThunk } from '../../Redux/geolocation_reducer';
-import { setWeatherThunk } from '../../Redux/weather_reducer';
 import Spinner from '../Spinner/Spinner';
 import { GeolocationWeather } from '../GeolocationWeather/GeolocationWeather';
 import { setWeatherSearchThunk } from './../../Redux/weather_reducer';
 import { SearchWeather } from '../SearchWeather/SearchWeather';
+import { Alert } from './../Alert';
+import { makeStyles } from '@material-ui/core/styles';
+
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        width: '100%',
+        '& > * + *': {
+        marginTop: theme.spacing(2),
+        },
+    },
+}));
+
 
 export default function HomeContainer() {
 
+    const classes = useStyles();
+
     const [search, setSearch] = useState('');
 
-    const geolocation = useSelector(state => state.geolocation);
     const city = useSelector(state => state.geolocation.city);
     const country = useSelector(state => state.geolocation.country);
 
@@ -52,24 +65,24 @@ export default function HomeContainer() {
     const dates = `${days[date.getDay()]}, ${date.getDate()} ${months[date.getMonth()]}`;
 
     return (
-        <div>
+        <div className={classes.root}>
           
-            {isLoading ? <Spinner /> : (<React.Fragment>
+            {isLoading ? <Spinner /> : (<>
 
-                {error_mess && (<h3>{error_mess}</h3>)}
-                
+                {error_mess && (<Alert severity="error">{error_mess}</Alert> )}
+                  
                 {city.length !== 0 && <GeolocationWeather city={city}
                     country={country}
                     weather={weather}
                     dates={dates}        
                 />}
 
-                <br></br>
+                <hr></hr>
                 
                 <input onChange={handleChange} value={search} placeholder='Львів, Lviv, Kyiv, Ivano Frankivsk...' title='You can specify the City name not only in English. In list of more than 200,000 locations.'/>
                 <button onClick={handleClick}>Send</button>
 
-                {errorSearch && (<h3>{errorSearch}</h3>)}
+                {errorSearch && (<h3><Alert severity="error">{errorSearch}</Alert></h3>)}
 
                 {searchArr.length !== 0  && <SearchWeather searchArr={searchArr} 
                     searchCity={searchCity}
@@ -78,11 +91,7 @@ export default function HomeContainer() {
                     date={date}
                 />}
 
-      
-
-            </React.Fragment>)}
-
-            
+            </>)}            
         </div>
     )
 }

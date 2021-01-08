@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import NavBar from './Components/NavBar/NavBar';
 import Main from './Components/Main/Main';
+import Footer from './Components/Footer/Footer';
  
 function App(props) {
   return (
@@ -10,6 +11,8 @@ function App(props) {
       <NavBar />
 
       <Main />
+
+      <Footer />
       
     </React.Fragment>
   );

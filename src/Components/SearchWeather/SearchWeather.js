@@ -1,5 +1,5 @@
 import React from 'react'
-import classes from './SearchWeather.css' 
+import classes from './SearchWeather.module.css' 
 import { NavLink, Route, Switch } from 'react-router-dom';
 import Day from './../Day/Day';
 
@@ -19,7 +19,7 @@ export const SearchWeather = React.memo(({ searchArr, searchCity, searchCountry,
             <h3>{searchCity}, {searchCountry}</h3>
             
             <div>
-                {searchArr.map((el, index) => (<NavLink key={String(index)} to={`/Home/${newDays[0][index]}`} activeClassName={classes.active} className={classes.navLink}>
+                {searchArr.map((el, index) => (<NavLink key={String(index)} to={`/Home/${newDays[0][index]}`} activeClassName={classes.active2} className={classes.navLink2}>
                     <div>{newDays[0][index]}</div>
                     <img src={`http://openweathermap.org/img/wn/${el[0].weather[0].icon}@4x.png`}/>
                     <div>{el[0].main.temp}°C</div>

@@ -1,4 +1,4 @@
-.navLink {
+.navLink2 {
   color: #ccc;
   font-weight: bold;
   font-size: 22px;
@@ -6,6 +6,6 @@
   padding-right: 20px;
 }
 
-.active {
+.active2 {
   color: red;
 }

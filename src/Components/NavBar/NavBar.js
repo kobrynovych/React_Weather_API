@@ -12,12 +12,13 @@ const NavBar = (props) => {
       <>
         <CssBaseline />
             <Slide appear={false} direction="down" in={!trigger}>
-            <AppBar>
-                <Toolbar>
-                  <NavLink to="/Home" activeClassName={classes.active} className={classes.navLink}>Home</NavLink>
-                  <NavLink to="/About" activeClassName={classes.active} className={classes.navLink}>About</NavLink>
-                </Toolbar>
-            </AppBar>
+              <AppBar>
+                  <Toolbar>
+                    <NavLink to="/Home" activeClassName={classes.active} className={classes.navLink}>Home</NavLink>
+                    <NavLink to="/About" activeClassName={classes.active} className={classes.navLink}>About</NavLink>
+                    <NavLink to="/" className={`${classes.navLink} ${classes.logo}`}><img src={`http://openweathermap.org/img/wn/10d.png`}/></NavLink>
+                  </Toolbar>
+              </AppBar>
             </Slide>
         <Toolbar />
       </>
