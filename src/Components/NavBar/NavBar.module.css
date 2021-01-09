@@ -1,15 +1,13 @@
 .navLink {
   color: #ccc;
-  font-weight: bold;
   font-size: 22px;
+  font-weight: bold;
   text-decoration: none;
   padding-right: 20px;
 }
-
 .active {
   color: #fff;
 }
-
 .logo {
   display: flex;
   align-self: center;

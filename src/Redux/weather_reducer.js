@@ -47,8 +47,8 @@ export const setWeatherSearchCountry_ActionCreater = (payload) => ({type: SET_WE
 
 export const setWeatherThunk = (city) => async (dispatch) => {
 
-    const cityURL = city.replace(/\s/g, '-'); 
-
+    // const cityURL = city.replace(/\s/g, '-'); 
+const cityURL = 'Lviv';
     dispatch(setIsLoading2_ActionCreater());
 
     try {

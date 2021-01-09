@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import classes from './../SearchWeather/SearchWeather.module.css';
 import Card from './../Card/Card';
+import { PropTypes } from 'prop-types';
 
 const Day = React.memo(({searchArr, newDays }) => {
 
@@ -24,3 +25,8 @@ const Day = React.memo(({searchArr, newDays }) => {
 });
 
 export default Day;
+
+Day.propTypes = {
+    searchArr: PropTypes.array,
+    newDays: PropTypes.array,
+};

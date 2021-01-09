@@ -1,5 +1,6 @@
 import React from 'react'
 import classes from './GeolocationWeather.module.css';
+import { PropTypes } from 'prop-types';
  
 export const GeolocationWeather = React.memo(({ city, country, weather, dates }) => {
     return (
@@ -13,7 +14,7 @@ export const GeolocationWeather = React.memo(({ city, country, weather, dates })
 
                 <div className={classes.left}>
                     <div className={classes.left_box}>
-                        <img className={classes.img} src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@4x.png`}/>
+                        <img className={classes.img} src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@4x.png`} alt='img'/>
                         <div className={classes.temp}>{Math.trunc(weather.main.temp)}°C</div>
                         <div className={classes.description}>{weather.weather[0].description}</div>
                     </div>
@@ -30,3 +31,10 @@ export const GeolocationWeather = React.memo(({ city, country, weather, dates })
         </>
     )
 });
+
+GeolocationWeather.propTypes = {
+    city: PropTypes.string,
+    country: PropTypes.string,
+    weather: PropTypes.object,
+    dates: PropTypes.string,
+};

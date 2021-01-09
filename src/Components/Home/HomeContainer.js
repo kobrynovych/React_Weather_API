@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useMemo} from 'react'
+import React, {useState, useEffect} from 'react'
 import { useDispatch, useSelector} from 'react-redux';
 import { setGeolocationThunk } from '../../Redux/geolocation_reducer';
 import Spinner from '../Spinner/Spinner';

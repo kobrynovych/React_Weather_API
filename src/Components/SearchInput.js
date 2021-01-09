@@ -4,6 +4,7 @@ import {
   makeStyles,
 } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import { PropTypes } from 'prop-types';
 
 const CssTextField = withStyles({
   root: {
@@ -54,7 +55,7 @@ const SearchInput = React.memo(({ onChange, onClick, value }) => {
 
   return (
     <form className={classes.root} noValidate>
-    <CssTextField
+      <CssTextField
         className={classes.margin}
         label="Search weather..."
         variant="outlined"
@@ -76,3 +77,9 @@ const SearchInput = React.memo(({ onChange, onClick, value }) => {
 });
 
 export default SearchInput;
+
+SearchInput.propTypes = {
+  onChange: PropTypes.func,
+  onClick: PropTypes.func,
+  value: PropTypes.string,
+};

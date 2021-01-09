@@ -3,6 +3,7 @@ import classes from './SearchWeather.module.css'
 import { NavLink, Route, Switch } from 'react-router-dom';
 import Day from './../Day/Day';
 import Card from './../Card/Card';
+import { PropTypes } from 'prop-types';
 
 export const SearchWeather = React.memo(({ searchArr, searchCity, searchCountry, newDays }) => {
     return (
@@ -35,3 +36,10 @@ export const SearchWeather = React.memo(({ searchArr, searchCity, searchCountry,
         </div>
     )
 });
+
+SearchWeather.propTypes = {
+    searchArr: PropTypes.array,
+    searchCity: PropTypes.string,
+    searchCountry: PropTypes.string,
+    newDays: PropTypes.array,
+};
