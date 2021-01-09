@@ -71,35 +71,6 @@ export const setWeatherThunk = (city) => async (dispatch) => {
     dispatch(setIsLoading_ActionCreater());
 }
 
-
-// // search
-// export const setWeatherSearchThunk = (city) => async (dispatch) => {
-
-//     const cityURL = city.replace(/\s/g, '-'); 
-
-//     dispatch(setIsLoading_ActionCreater());
-
-//     try {
-//         const response = await weatherFetch.search(cityURL);
-//         debugger
-//         if (response.data.cod === '200') {
-//            dispatch(setWeatherSearch_ActionCreater(response.data));
-//            dispatch(setErrorMessSearch_ActionCreater(null));
-//         } else {
-//            dispatch(setWeatherSearch_ActionCreater({}));
-//            dispatch(setErrorMessSearch_ActionCreater(response.data.message));
-//         }
-        
-//     } catch(error) {
-//         dispatch(setWeatherSearch_ActionCreater({}));
-//         dispatch(setErrorMessSearch_ActionCreater(error.response.data.message));
-//     }
-
-//     dispatch(setIsLoading_ActionCreater());
-// }
-
-
-
 // search
 export const setWeatherSearchThunk = (city) => async (dispatch) => {
 
@@ -109,21 +80,20 @@ export const setWeatherSearchThunk = (city) => async (dispatch) => {
 
     try {
         const response = await weatherFetch.search(cityURL);
-        debugger
+      
         if (response.data.cod === '200') {
 
             const list = response.data.list;
             const startNewDay = list.findIndex(el => el.dt_txt.split(' ')[1] === '00:00:00');
-            console.log('startNewDay: '+startNewDay);
             const arr = [];
+
             if (startNewDay > 0) {
                 arr.push(list.splice(0, startNewDay))
             }
+
             while(list.length > 0) {
               arr.push(list.splice(0, 8))
             }
-            console.log(arr);
-
 
            dispatch(setWeatherSearch_ActionCreater(arr));
            dispatch(setWeatherSearchCity_ActionCreater(response.data.city.name));

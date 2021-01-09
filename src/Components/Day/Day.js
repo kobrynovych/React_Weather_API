@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import classes from './../SearchWeather/SearchWeather.module.css';
 
-export default function Day({searchArr, newDays}) {
+const Day = React.memo(({searchArr, newDays }) => {
 
     const { id } = useParams();
     const num =  newDays[0].indexOf(id)
@@ -21,4 +21,6 @@ export default function Day({searchArr, newDays}) {
             </div>))}
         </div>
     )
-}
+});
+
+export default Day;

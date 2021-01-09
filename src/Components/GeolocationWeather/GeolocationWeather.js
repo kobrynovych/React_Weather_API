@@ -8,7 +8,6 @@ export const GeolocationWeather = React.memo(({ city, country, weather, dates })
                 <h1>{city}, {country.toUpperCase()}</h1>
                 <h2>{dates}</h2>
             </div>
-
             
             {JSON.stringify(weather) !== '{}' && (<div className={classes.wrapper}>
 
