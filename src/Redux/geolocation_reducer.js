@@ -41,11 +41,11 @@ export const setGeolocationThunk = () => async (dispatch) => {
 
         const response = await geolocationFetch();
 
-        if (response.data.status === "success") {
+        if (response.status === 200) {
 
            dispatch(setWeatherThunk(response.data.city));
            dispatch(setCity_ActionCreater(response.data.city));
-           dispatch(setCountry_ActionCreater(response.data.country));
+           dispatch(setCountry_ActionCreater(response.data.country_name));
            dispatch(setErrorMess_ActionCreater(null));
 
         } else {

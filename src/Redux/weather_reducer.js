@@ -1,6 +1,6 @@
 import React from 'react';
 import { weatherFetch } from '../api/api';
-import { setIsLoading_ActionCreater, setErrorMess_ActionCreater, setErrorMessSearch_ActionCreater } from './errorMess_reducer';
+import { setIsLoading2_ActionCreater, setErrorMess_ActionCreater, setErrorMessSearch_ActionCreater } from './errorMess_reducer';
 
 const SET_WEATHER = 'SET_WEATHER';
 const SET_WEATHER_SEARCH = 'SET_WEATHER_SEARCH';
@@ -47,10 +47,9 @@ export const setWeatherSearchCountry_ActionCreater = (payload) => ({type: SET_WE
 
 export const setWeatherThunk = (city) => async (dispatch) => {
 
-    const city2 = (city === 'Novyy Rozdil') ? 'Lviv' : city;
-    const cityURL = city2.replace(/\s/g, '-'); 
+    const cityURL = city.replace(/\s/g, '-'); 
 
-    dispatch(setIsLoading_ActionCreater());
+    dispatch(setIsLoading2_ActionCreater());
 
     try {
         const response = await weatherFetch.geolocation(cityURL);
@@ -68,15 +67,16 @@ export const setWeatherThunk = (city) => async (dispatch) => {
         dispatch(setErrorMess_ActionCreater(error.response.data.message));
     }
 
-    dispatch(setIsLoading_ActionCreater());
+    dispatch(setIsLoading2_ActionCreater());
 }
 
-// search
+
+
 export const setWeatherSearchThunk = (city) => async (dispatch) => {
 
     const cityURL = city.replace(/\s/g, '-'); 
 
-    dispatch(setIsLoading_ActionCreater());
+    dispatch(setIsLoading2_ActionCreater());
 
     try {
         const response = await weatherFetch.search(cityURL);
@@ -112,5 +112,5 @@ export const setWeatherSearchThunk = (city) => async (dispatch) => {
         dispatch(setErrorMessSearch_ActionCreater(error.response.data.message));
     }
 
-    dispatch(setIsLoading_ActionCreater());
+    dispatch(setIsLoading2_ActionCreater());
 }

@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import NavBar from './Components/NavBar/NavBar';
 import Main from './Components/Main/Main';
 import Footer from './Components/Footer/Footer';

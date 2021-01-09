@@ -10,14 +10,14 @@ export default function Main() {
         <Box my={2}>
             <React.Suspense fallback={<div><LinearProgress /></div>}>
               <Switch>
-                <Route path="/Home">
+                <Route path="/React_Weather_API">
                   <HomeContainer />
                 </Route>
                 <Route exact path="/About">
                   <About />
                 </Route>
                 <Route path="*">
-                  <Redirect to="/Home" />
+                  <Redirect to="/React_Weather_API" />
                 </Route>
               </Switch>
             </React.Suspense>

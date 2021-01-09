@@ -5,26 +5,15 @@ import Spinner from '../Spinner/Spinner';
 import { GeolocationWeather } from '../GeolocationWeather/GeolocationWeather';
 import { setWeatherSearchThunk } from './../../Redux/weather_reducer';
 import { SearchWeather } from '../SearchWeather/SearchWeather';
-import { Alert } from './../Alert';
-import { makeStyles } from '@material-ui/core/styles';
+import { AlertApp } from './../Alert';
 import SearchInput from './../SearchInput';
-
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '100%',
-        '& > * + *': {
-        marginTop: theme.spacing(2),
-        },
-    },
-}));
+import { LinearProgress } from '@material-ui/core';
 
 
 export default function HomeContainer() {
 
-    const classes = useStyles();
-
     const [search, setSearch] = useState('');
+    const [searchPrev, setSearchPrev] = useState('');
 
     const city = useSelector(state => state.geolocation.city);
     const country = useSelector(state => state.geolocation.country);
@@ -36,10 +25,10 @@ export default function HomeContainer() {
     const searchCountry = useSelector(state => state.weather.country);
 
     const isLoading = useSelector(state => state.errorMess.isLoading)
+    const isLoading2 = useSelector(state => state.errorMess.isLoading2)
     const error_mess = useSelector(state => state.errorMess.error);
     const errorSearch = useSelector(state => state.errorMess.errorSearch);
 
-    
     const dispatch = useDispatch();
          
     useEffect(() => {
@@ -48,34 +37,40 @@ export default function HomeContainer() {
         }
     }, [])
 
-
-    // const handleClick2 = React.useMemo(() => dispatch(setWeatherThunk(geolocation.city), [asd]));
-
     const handleChange = (e) => {
         setSearch(e.target.value);
     }
 
-    const handleClick = (e) => {
-        dispatch(setWeatherSearchThunk(search));
+    const handleClick = () => {
+        if (searchPrev !== search) {
+            setSearchPrev(search);
+            dispatch(setWeatherSearchThunk(search));
+        }
     }
 
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday'];
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'Nocvember', 'December'];
     const date = new Date();
     const dates = `${days[date.getDay()]}, ${date.getDate()} ${months[date.getMonth()]}`;
 
+    const startDay = date.getDay();
+    const finishDay = startDay + searchArr.length + 1;
+
+    const newDays = []
+    newDays.push(days.slice(startDay, finishDay))
+
     return (
-        <div className={classes.root}>
+        <div>
           
             {isLoading ? <Spinner /> : (<>
-
-                {error_mess && (<Alert severity="error">{error_mess}</Alert> )}
                   
                 {city.length !== 0 && <GeolocationWeather city={city}
                     country={country}
                     weather={weather}
                     dates={dates}        
                 />}
+
+                {error_mess && (<AlertApp mess={error_mess}/>)}
 
                 <hr></hr>
                 
@@ -84,13 +79,14 @@ export default function HomeContainer() {
                     value={search} 
                 />
 
-                {errorSearch && (<h3><Alert severity="error">{errorSearch}</Alert></h3>)}
+                {isLoading2 && (<LinearProgress />)}
+
+                {errorSearch && (<AlertApp mess={errorSearch} />)}
 
                 {searchArr.length !== 0  && <SearchWeather searchArr={searchArr} 
                     searchCity={searchCity}
                     searchCountry={searchCountry}
-                    days={days}
-                    date={date}
+                    newDays={newDays}
                 />}
 
             </>)}            

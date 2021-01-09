@@ -1,7 +1,7 @@
-{
+{ 
   "homepage": "https://IgorKob.github.io/React_Weather_API",
   "name": "app_weather",
-  "version": "0.1.0",
+  "version": "0.1.0", 
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.2",
@@ -27,7 +27,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy" : "npm run build" , 
-    "deploy" : "gh-pages -d build" 
+    "deploy" : "gh-pages -d build", 
   },
   "eslintConfig": {
     "extends": [

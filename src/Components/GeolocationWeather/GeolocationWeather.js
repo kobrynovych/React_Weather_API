@@ -13,8 +13,8 @@ export const GeolocationWeather = React.memo(({ city, country, weather, dates })
 
                 <div className={classes.left}>
                     <div className={classes.left_box}>
-                        <img className={classes.img} src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@4x.png`}/>
-                        <div className={classes.temp}>{weather.main.temp}°C</div>
+                        <img className={classes.img} src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@4x.png`}/>
+                        <div className={classes.temp}>{Math.trunc(weather.main.temp)}°C</div>
                         <div className={classes.description}>{weather.weather[0].description}</div>
                     </div>
                 </div>

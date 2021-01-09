@@ -8,21 +8,25 @@ import TextField from '@material-ui/core/TextField';
 const CssTextField = withStyles({
   root: {
     '& label.Mui-focused': {
-      color: 'green',
+      color: 'blue',
+      fontWeight: 'bold',
+      textShadow: '0 0 2px rgba(0, 0, 0, .3)',
+      fontSize: '22px',
     },
     '& .MuiInput-underline:after': {
-      borderBottomColor: 'green',
+      borderBottomColor: '#fff',
     },
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        border: '3px solid red',
-        borderRadius: '15px',
+        border: '3px solid blue',
+        borderRadius: '5px',
+        color: 'blue',
       },
       '&:hover fieldset': {
-        borderColor: 'yellow',
+        borderColor: '#fff',
       },
       '&.Mui-focused fieldset': {
-        borderColor: 'green',
+        borderColor: '#fff',
       },
     },
   },
@@ -34,10 +38,12 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
+
   },
   margin: {
     margin: theme.spacing(1),
     width: '320px',
+    backgroundColor: 'rgba(255,255,255,.6)',
   },
 }));
 
@@ -53,11 +59,11 @@ const SearchInput = React.memo(({ onChange, onClick, value }) => {
         label="Search weather..."
         variant="outlined"
         id="custom-css-outlined-input"
+        autoFocus
         onChange={(event) =>
             onChange(event)
         }
         onKeyPress={(event) => {
-            // if (event.ctrlKey && event.key === 'Enter') {
             if (event.key === "Enter") {
                 event.preventDefault();
                 onClick();
