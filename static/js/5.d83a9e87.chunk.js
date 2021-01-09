@@ -1,0 +1,2 @@
+(this.webpackJsonpapp_weather=this.webpackJsonpapp_weather||[]).push([[5],{144:function(e,n,t){e.exports={wrapper:"About_wrapper__1lzgj"}},166:function(e,n,t){"use strict";t.r(n),t.d(n,"default",(function(){return s}));var r=t(2),a=(t(0),t(144)),p=t.n(a);function s(){return Object(r.jsxs)("div",{className:p.a.wrapper,children:[Object(r.jsx)("h1",{children:"About"}),Object(r.jsx)("p",{children:"You can specify the City name not only in English. In list of more than 200,000 locations."})]})}}}]);
+//# sourceMappingURL=5.d83a9e87.chunk.js.map
