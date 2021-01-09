@@ -7,6 +7,7 @@ import { setWeatherSearchThunk } from './../../Redux/weather_reducer';
 import { SearchWeather } from '../SearchWeather/SearchWeather';
 import { Alert } from './../Alert';
 import { makeStyles } from '@material-ui/core/styles';
+import SearchInput from './../SearchInput';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -55,7 +56,6 @@ export default function HomeContainer() {
     }
 
     const handleClick = (e) => {
-        e.preventDefault();
         dispatch(setWeatherSearchThunk(search));
     }
 
@@ -79,8 +79,10 @@ export default function HomeContainer() {
 
                 <hr></hr>
                 
-                <input onChange={handleChange} value={search} placeholder='Львів, Lviv, Kyiv, Ivano Frankivsk...' title='You can specify the City name not only in English. In list of more than 200,000 locations.'/>
-                <button onClick={handleClick}>Send</button>
+                <SearchInput onChange={handleChange} 
+                    onClick={handleClick}
+                    value={search} 
+                />
 
                 {errorSearch && (<h3><Alert severity="error">{errorSearch}</Alert></h3>)}
 

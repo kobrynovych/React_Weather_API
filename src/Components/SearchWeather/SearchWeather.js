@@ -14,33 +14,29 @@ export const SearchWeather = React.memo(({ searchArr, searchCity, searchCountry,
 
 
     return (
-        <>
+        <div className={classes.wrapper}>
 
-            <h3>{searchCity}, {searchCountry}</h3>
+            <h2 className={classes.title}>{searchCity}, {searchCountry}</h2>
             
-            <div>
+            <div className={classes.days}>
                 {searchArr.map((el, index) => (<NavLink key={String(index)} to={`/Home/${newDays[0][index]}`} activeClassName={classes.active2} className={classes.navLink2}>
-                    <div>{newDays[0][index]}</div>
+                    <div className={classes.dayTitle}>{newDays[0][index]}</div>
+                    <div className={classes.dayTitle}>{el[0].main.temp}°C</div>
                     <img src={`http://openweathermap.org/img/wn/${el[0].weather[0].icon}@4x.png`}/>
-                    <div>{el[0].main.temp}°C</div>
-                    <div>Humidity: {el[0].main.humidity}%</div>
-                    <div>Cloudiness: {el[0].clouds.all}%</div>
-                    <div>Wind speed: {el[0].wind.speed}m/s</div>
+                    <div className={classes.padding}>Humidity: {el[0].main.humidity}%</div>
+                    <div className={classes.padding}>Cloudiness: {el[0].clouds.all}%</div>
+                    <div className={classes.padding2}>Wind speed: {el[0].wind.speed}m/s</div>
                 </NavLink>))}
             </div>
 
-
-
-            <div>
+            <div className={classes.day}>
                 <Switch>
-                    {/* {newDays[0].map((el, index) => (<div key={String(index)}> */}
-                        <Route exact path={`/Home/:id`}>
-                            <Day searchArr={searchArr} newDays={newDays}/>
-                        </Route>
-                    {/* </div>))} */}
+                    <Route exact path={`/Home/:id`}>
+                        <Day searchArr={searchArr} newDays={newDays}/>
+                    </Route>
                 </Switch>
             </div>
                 
-        </>
+        </div>
     )
 });
