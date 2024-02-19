@@ -2,7 +2,7 @@
 
 App to show weather and weather for your current city.
 
-https://igorkob.github.io/React_Weather_API
+https://kobrynovych.github.io/React_Weather_API
 
 ## Table of contents
 * [Instructions](#Instructions)
@@ -14,7 +14,7 @@ https://igorkob.github.io/React_Weather_API
 
 First clone this repository.
 ```bash
-$ git clone https://github.com/IgorKob/React_Weather_API.git
+$ git clone https://github.com/kobrynovych/React_Weather_API.git
 ```
 
 Install dependencies. Make sure you already have [`nodejs`](https://nodejs.org/en/) & [`npm`](https://www.npmjs.com/) installed in your system.
